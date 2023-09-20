@@ -1,5 +1,12 @@
-const { Schema, model } = require('mongoose')
+const { Schema, model } = require('mongoose');
+const validate = require('mongoose-validator')
 
+const emailValidator = [
+    validate({
+        validator: 'isEmail',
+        message: 'Please enter a Valid email address'
+    })
+]
 
 const userSchema = new Schema(
     {
@@ -15,9 +22,7 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            validate: {
-                isEmail: true,
-            }
+            validate: emailValidator
         },
         thoughts: [
             {

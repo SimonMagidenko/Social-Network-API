@@ -7,7 +7,7 @@ const reactionSchema = new Schema(
         reactionId: {
             type: Schema.Types.ObjectId,
             default: () => {
-                new mongoose.Types.ObjectId()
+                mongoose.Types.ObjectId()
             }
         },
         reactionBody: {
@@ -32,10 +32,8 @@ const thoughtSchema = new Schema(
         thoughtText: {
             type: String,
             required: true,
-            validate: {
-                minlength: 1,
-                maxlength: 280
-            },
+            minlength: 1,
+            maxlength: 280
         },
         createdAt: {
             type: Date,
