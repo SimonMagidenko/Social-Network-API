@@ -1,12 +1,4 @@
 const { Schema, model } = require('mongoose');
-const validate = require('mongoose-validator')
-
-const emailValidator = [
-    validate({
-        validator: 'isEmail',
-        message: 'Please enter a Valid email address'
-    })
-]
 
 const userSchema = new Schema(
     {
@@ -14,15 +6,13 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            set: (value) => {
-                return value.trim();
-            }
+            trim: true,
         },
         email: {
             type: String,
             required: true,
             unique: true,
-            validate: emailValidator
+            match: /^\S+@\S+\.\S+$/,
         },
         thoughts: [
             {
@@ -41,9 +31,13 @@ const userSchema = new Schema(
     }
 )
 
-userSchema.virtual('friendCount').get(() => {
-    return this.friends.length;
+userSchema.virtual('friendCount').get(function () {
+    if (this.friends) {
+        return this.friends.length;
+    }
+    return 0;
 });
+
 
 const User = model('user', userSchema);
 
